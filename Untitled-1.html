@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minha Rotina</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#111827;
+    color:white;
+    padding:20px;
+}
+
+.container{
+    max-width:500px;
+    margin:auto;
+}
+
+h1{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.card{
+    background:#1f2937;
+    padding:15px;
+    border-radius:12px;
+    margin-bottom:10px;
+    cursor:pointer;
+    transition:0.3s;
+    border:2px solid transparent;
+}
+
+.card:hover{
+    border-color:#3b82f6;
+}
+
+.completed{
+    background:#065f46;
+    border-color:#22c55e;
+}
+
+.progress-container{
+    width:100%;
+    height:30px;
+    background:#374151;
+    border-radius:20px;
+    overflow:hidden;
+    margin:15px 0;
+}
+
+.progress{
+    height:100%;
+    width:0%;
+    background:#22c55e;
+    transition:0.4s;
+}
+
+.points{
+    text-align:center;
+    font-size:22px;
+    font-weight:bold;
+}
+
+.status{
+    text-align:center;
+    margin-top:10px;
+    font-size:18px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<h1>🚀 Minha Rotina</h1>
+
+<div class="points">
+    <span id="score">0</span>/10 pontos
+</div>
+
+<div class="progress-container">
+    <div class="progress" id="progressBar"></div>
+</div>
+
+<div class="status" id="status">
+    Vamos começar o dia!
+</div>
+
+<br>
+
+<div class="card" onclick="toggleTask(0)">
+🏠 Arrumar a casa (0,5 ponto)
+</div>
+
+<div class="card" onclick="toggleTask(1)">
+😴 Dormir no mínimo 7 horas (1 ponto)
+</div>
+
+<div class="card" onclick="toggleTask(2)">
+💼 Trabalhar no mínimo 6 horas (2 pontos)
+</div>
+
+<div class="card" onclick="toggleTask(3)">
+💪 Academia (1,5 ponto)
+</div>
+
+<div class="card" onclick="toggleTask(4)">
+🥗 Alimentação saudável (1 ponto)
+</div>
+
+<div class="card" onclick="toggleTask(5)">
+📈 Seguir gerenciamento (2 pontos)
+</div>
+
+<div class="card" onclick="toggleTask(6)">
+📚 Ler 10 páginas (1 ponto)
+</div>
+
+<div class="card" onclick="toggleTask(7)">
+🎓 Estudar (1 ponto)
+</div>
+
+</div>
+
+<script>
+
+const TOTAL_POINTS = 10;
+
+const tasks = [
+    { points: 0.5 },
+    { points: 1 },
+    { points: 2 },
+    { points: 1.5 },
+    { points: 1 },
+    { points: 2 },
+    { points: 1 },
+    { points: 1 }
+];
+
+function resetIfNewDay() {
+    const today = new Date().toDateString();
+    const savedDay = localStorage.getItem("lastDay");
+
+    if(savedDay !== today){
+        localStorage.setItem("lastDay", today);
+        localStorage.setItem("completedTasks", JSON.stringify([]));
+    }
+}
+
+resetIfNewDay();
+
+let completedTasks =
+JSON.parse(localStorage.getItem("completedTasks")) || [];
+
+const cards = document.querySelectorAll(".card");
+
+cards.forEach((card,index)=>{
+    if(completedTasks.includes(index)){
+        card.classList.add("completed");
+    }
+});
+
+function toggleTask(index){
+
+    if(completedTasks.includes(index)){
+        completedTasks =
+        completedTasks.filter(i => i !== index);
+
+        cards[index].classList.remove("completed");
+    }else{
+        completedTasks.push(index);
+
+        cards[index].classList.add("completed");
+    }
+
+    localStorage.setItem(
+        "completedTasks",
+        JSON.stringify(completedTasks)
+    );
+
+    updateProgress();
+}
+
+function updateProgress(){
+
+    let total = 0;
+
+    completedTasks.forEach(index=>{
+        total += tasks[index].points;
+    });
+
+    document.getElementById("score").innerText =
+        total.toFixed(1);
+
+    const percentage =
+        (total / TOTAL_POINTS) * 100;
+
+    document.getElementById("progressBar").style.width =
+        percentage + "%";
+
+    const status =
+        document.getElementById("status");
+
+    if(total >= 10){
+        status.innerText =
+        "🔥 Dia perfeito! 100% concluído!";
+    }
+    else if(total >= 7){
+        status.innerText =
+        "✅ Meta mínima atingida!";
+    }
+    else{
+        status.innerText =
+        "🚀 Continue avançando!";
+    }
+}
+
+updateProgress();
+
+</script>
+
+</body>
+</html>
