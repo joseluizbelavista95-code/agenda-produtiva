@@ -3,228 +3,370 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Minha Rotina</title>
+<title>Agenda Produtiva</title>
 
 <style>
+
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial, sans-serif;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, Helvetica, sans-serif;
 }
 
 body{
-    background:#111827;
-    color:white;
-    padding:20px;
+background:#0f172a;
+color:white;
+padding:20px;
 }
 
 .container{
-    max-width:500px;
-    margin:auto;
+max-width:500px;
+margin:auto;
+}
+
+.header{
+background:#1e293b;
+padding:20px;
+border-radius:15px;
+margin-bottom:15px;
 }
 
 h1{
-    text-align:center;
-    margin-bottom:20px;
+font-size:28px;
+margin-bottom:5px;
 }
 
-.card{
-    background:#1f2937;
-    padding:15px;
-    border-radius:12px;
-    margin-bottom:10px;
-    cursor:pointer;
-    transition:0.3s;
-    border:2px solid transparent;
+.date{
+color:#94a3b8;
 }
 
-.card:hover{
-    border-color:#3b82f6;
+.stats{
+display:flex;
+justify-content:space-between;
+margin-top:15px;
 }
 
-.completed{
-    background:#065f46;
-    border-color:#22c55e;
+.stat-box{
+background:#334155;
+padding:10px;
+border-radius:10px;
+width:48%;
+text-align:center;
 }
 
-.progress-container{
-    width:100%;
-    height:30px;
-    background:#374151;
-    border-radius:20px;
-    overflow:hidden;
-    margin:15px 0;
+.progress-card{
+background:#1e293b;
+padding:20px;
+border-radius:15px;
+margin-bottom:15px;
+}
+
+.progress-bar{
+height:25px;
+background:#334155;
+border-radius:30px;
+overflow:hidden;
+margin-top:10px;
 }
 
 .progress{
-    height:100%;
-    width:0%;
-    background:#22c55e;
-    transition:0.4s;
+height:100%;
+width:0%;
+background:#22c55e;
+transition:0.4s;
 }
 
-.points{
-    text-align:center;
-    font-size:22px;
-    font-weight:bold;
+.progress-text{
+margin-top:10px;
+font-size:18px;
+font-weight:bold;
+text-align:center;
+}
+
+.task{
+background:#1e293b;
+padding:15px;
+border-radius:12px;
+margin-bottom:10px;
+cursor:pointer;
+transition:.3s;
+border:2px solid transparent;
+}
+
+.task:hover{
+border-color:#3b82f6;
+}
+
+.task.completed{
+background:#14532d;
+border-color:#22c55e;
+}
+
+.task-title{
+font-size:17px;
+}
+
+.task-points{
+color:#94a3b8;
+font-size:14px;
+margin-top:4px;
 }
 
 .status{
-    text-align:center;
-    margin-top:10px;
-    font-size:18px;
+text-align:center;
+font-size:20px;
+margin-top:15px;
+font-weight:bold;
 }
+
+.footer{
+margin-top:20px;
+text-align:center;
+color:#94a3b8;
+}
+
 </style>
 </head>
+
 <body>
 
 <div class="container">
 
-<h1>🚀 Minha Rotina</h1>
+<div class="header">
+<h1>🚀 Agenda Produtiva</h1>
+<div class="date" id="today"></div>
 
-<div class="points">
-    <span id="score">0</span>/10 pontos
+<div class="stats">
+
+<div class="stat-box">
+🔥
+<br>
+Sequência
+<br>
+<span id="streak">0</span>
 </div>
 
-<div class="progress-container">
-    <div class="progress" id="progressBar"></div>
+<div class="stat-box">
+🏆
+<br>
+Recorde
+<br>
+<span id="bestStreak">0</span>
+</div>
+
+</div>
+</div>
+
+<div class="progress-card">
+
+<h3>Progresso do Dia</h3>
+
+<div class="progress-bar">
+<div class="progress" id="progressBar"></div>
+</div>
+
+<div class="progress-text">
+<span id="score">0</span>/10 pontos
 </div>
 
 <div class="status" id="status">
-    Vamos começar o dia!
+Vamos começar!
 </div>
 
-<br>
-
-<div class="card" onclick="toggleTask(0)">
-🏠 Arrumar a casa (0,5 ponto)
 </div>
 
-<div class="card" onclick="toggleTask(1)">
-😴 Dormir no mínimo 7 horas (1 ponto)
+<div class="task" onclick="toggleTask(0)">
+<div class="task-title">🏠 Arrumar a casa</div>
+<div class="task-points">0,5 ponto</div>
 </div>
 
-<div class="card" onclick="toggleTask(2)">
-💼 Trabalhar no mínimo 6 horas (2 pontos)
+<div class="task" onclick="toggleTask(1)">
+<div class="task-title">😴 Dormir 7 horas+</div>
+<div class="task-points">1 ponto</div>
 </div>
 
-<div class="card" onclick="toggleTask(3)">
-💪 Academia (1,5 ponto)
+<div class="task" onclick="toggleTask(2)">
+<div class="task-title">💼 Trabalhar 6 horas+</div>
+<div class="task-points">2 pontos</div>
 </div>
 
-<div class="card" onclick="toggleTask(4)">
-🥗 Alimentação saudável (1 ponto)
+<div class="task" onclick="toggleTask(3)">
+<div class="task-title">💪 Academia</div>
+<div class="task-points">1,5 ponto</div>
 </div>
 
-<div class="card" onclick="toggleTask(5)">
-📈 Seguir gerenciamento (2 pontos)
+<div class="task" onclick="toggleTask(4)">
+<div class="task-title">🥗 Alimentação saudável</div>
+<div class="task-points">1 ponto</div>
 </div>
 
-<div class="card" onclick="toggleTask(6)">
-📚 Ler 10 páginas (1 ponto)
+<div class="task" onclick="toggleTask(5)">
+<div class="task-title">📈 Seguir gerenciamento</div>
+<div class="task-points">2 pontos</div>
 </div>
 
-<div class="card" onclick="toggleTask(7)">
-🎓 Estudar (1 ponto)
+<div class="task" onclick="toggleTask(6)">
+<div class="task-title">📚 Ler 10 páginas</div>
+<div class="task-points">1 ponto</div>
+</div>
+
+<div class="task" onclick="toggleTask(7)">
+<div class="task-title">🎓 Estudar</div>
+<div class="task-points">1 ponto</div>
+</div>
+
+<div class="footer">
+Meta mínima: 7 pontos ✅<br>
+Meta máxima: 10 pontos 🔥
 </div>
 
 </div>
 
 <script>
 
-const TOTAL_POINTS = 10;
+const TOTAL = 10;
 
 const tasks = [
-    { points: 0.5 },
-    { points: 1 },
-    { points: 2 },
-    { points: 1.5 },
-    { points: 1 },
-    { points: 2 },
-    { points: 1 },
-    { points: 1 }
+{points:0.5},
+{points:1},
+{points:2},
+{points:1.5},
+{points:1},
+{points:2},
+{points:1},
+{points:1}
 ];
 
-function resetIfNewDay() {
-    const today = new Date().toDateString();
-    const savedDay = localStorage.getItem("lastDay");
+const today = new Date().toLocaleDateString('pt-BR');
 
-    if(savedDay !== today){
-        localStorage.setItem("lastDay", today);
-        localStorage.setItem("completedTasks", JSON.stringify([]));
-    }
+document.getElementById('today').innerText = today;
+
+function checkNewDay(){
+
+const currentDate = new Date().toDateString();
+const savedDate = localStorage.getItem("savedDate");
+
+let streak = Number(localStorage.getItem("streak")) || 0;
+let bestStreak = Number(localStorage.getItem("bestStreak")) || 0;
+
+if(savedDate && savedDate !== currentDate){
+
+const yesterdayPoints =
+Number(localStorage.getItem("lastScore")) || 0;
+
+if(yesterdayPoints >= 7){
+streak++;
+}else{
+streak = 0;
 }
 
-resetIfNewDay();
+if(streak > bestStreak){
+bestStreak = streak;
+}
+
+localStorage.setItem("streak", streak);
+localStorage.setItem("bestStreak", bestStreak);
+
+localStorage.setItem(
+"completedTasks",
+JSON.stringify([])
+);
+}
+
+localStorage.setItem("savedDate", currentDate);
+
+document.getElementById("streak").innerText = streak;
+document.getElementById("bestStreak").innerText = bestStreak;
+
+}
+
+checkNewDay();
 
 let completedTasks =
-JSON.parse(localStorage.getItem("completedTasks")) || [];
+JSON.parse(localStorage.getItem("completedTasks"))
+|| [];
 
-const cards = document.querySelectorAll(".card");
+const taskElements =
+document.querySelectorAll(".task");
 
-cards.forEach((card,index)=>{
-    if(completedTasks.includes(index)){
-        card.classList.add("completed");
-    }
+taskElements.forEach((task,index)=>{
+if(completedTasks.includes(index)){
+task.classList.add("completed");
+}
 });
 
 function toggleTask(index){
 
-    if(completedTasks.includes(index)){
-        completedTasks =
-        completedTasks.filter(i => i !== index);
+if(completedTasks.includes(index)){
 
-        cards[index].classList.remove("completed");
-    }else{
-        completedTasks.push(index);
+completedTasks =
+completedTasks.filter(i => i !== index);
 
-        cards[index].classList.add("completed");
-    }
+taskElements[index]
+.classList.remove("completed");
 
-    localStorage.setItem(
-        "completedTasks",
-        JSON.stringify(completedTasks)
-    );
+}else{
 
-    updateProgress();
+completedTasks.push(index);
+
+taskElements[index]
+.classList.add("completed");
+
 }
 
-function updateProgress(){
+localStorage.setItem(
+"completedTasks",
+JSON.stringify(completedTasks)
+);
 
-    let total = 0;
-
-    completedTasks.forEach(index=>{
-        total += tasks[index].points;
-    });
-
-    document.getElementById("score").innerText =
-        total.toFixed(1);
-
-    const percentage =
-        (total / TOTAL_POINTS) * 100;
-
-    document.getElementById("progressBar").style.width =
-        percentage + "%";
-
-    const status =
-        document.getElementById("status");
-
-    if(total >= 10){
-        status.innerText =
-        "🔥 Dia perfeito! 100% concluído!";
-    }
-    else if(total >= 7){
-        status.innerText =
-        "✅ Meta mínima atingida!";
-    }
-    else{
-        status.innerText =
-        "🚀 Continue avançando!";
-    }
+update();
 }
 
-updateProgress();
+function update(){
+
+let score = 0;
+
+completedTasks.forEach(index=>{
+score += tasks[index].points;
+});
+
+localStorage.setItem("lastScore", score);
+
+document.getElementById("score")
+.innerText = score.toFixed(1);
+
+const percent =
+(score / TOTAL) * 100;
+
+document.getElementById("progressBar")
+.style.width = percent + "%";
+
+const status =
+document.getElementById("status");
+
+if(score >= 10){
+
+status.innerHTML =
+"🔥 DIA PERFEITO!";
+
+}
+else if(score >= 7){
+
+status.innerHTML =
+"✅ META ATINGIDA!";
+
+}
+else{
+
+status.innerHTML =
+"🚀 CONTINUE AVANÇANDO";
+
+}
+
+}
+
+update();
 
 </script>
 
